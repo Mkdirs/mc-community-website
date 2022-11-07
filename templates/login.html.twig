@@ -1,5 +1,8 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>Hello World !</h1>
+    <h1>Login</h1>
+    {{ form(form) }}
+
+    <p>No account ? <a href={{ path('register') }}>register</a></p>
 {% endblock %}
