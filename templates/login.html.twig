@@ -1,8 +1,20 @@
+{# templates/login/index.html.twig #}
 {% extends 'base.html.twig' %}
 
-{% block body %}
-    <h1>Login</h1>
-    {{ form(form) }}
 
-    <p>No account ? <a href={{ path('register') }}>register</a></p>
+{% block body %}
+    {% if error %}
+        <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+    {% endif %}
+
+    <form action="{{ path('login') }}" method="post">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="_username" value="{{ lastUsername }}"/>
+
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="_password"/>
+
+
+        <button type="submit">login</button>
+    </form>
 {% endblock %}

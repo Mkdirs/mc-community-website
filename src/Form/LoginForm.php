@@ -14,8 +14,8 @@ class LoginForm extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('username', TextType::class, ['mapped' => false, 'constraints' => [new NotBlank()]])
-            ->add('password', PasswordType::class, ['mapped' => false, 'constraints' => [new NotBlank()]])
+            ->add('_username', TextType::class, ['mapped' => false, 'label' =>'username','constraints' => [new NotBlank()]])
+            ->add('_password', PasswordType::class, ['mapped' => false, 'label' =>'Password', 'constraints' => [new NotBlank()]])
             ->add('submit', SubmitType::class, ['label' => 'Login !']);
     }
 

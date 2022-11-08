@@ -12,42 +12,27 @@ use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class LoginController extends AbstractController
 {
 
 
     #[Route('/login', name: 'login')]
-    public function login(Request $request, UserRepository $repository, UserPasswordHasherInterface $hasher):Response{
+    public function login(AuthenticationUtils $utils):Response{
 
-        $form = $this->createForm(LoginForm::class, null);
+        $lastUsername = $utils->getLastUsername() ?: '';
+        $error = $utils->getLastAuthenticationError();
 
+        //return new Response(content: join("\n", $response->headers->all()));
 
-        $form->handleRequest($request);
-        if($form->isSubmitted() && $form->isValid()){
-            $username = $form->get('username')->getData();
-            $passwd = $form->get('password')->getData();
-
-
-
-            $user = $repository
-                ->findOneBy(['name' =>$username]);
-
-            if($user != null && $hasher->isPasswordValid($user, $passwd)){
-                return $this->redirectToRoute('home');
-            }elseif ($user == null){
-                $form->addError(new FormError('Unknown user !'));
-            }else{
-                $form->addError(new FormError('Wrong password !'));
-            }
-
-
-        }
-
-        return $this->renderForm('login.html.twig', ['title' => 'Login', 'form' => $form]);
+        return $this->render('login.html.twig', ['title' => 'Login', 'error' =>$error, 'lastUsername' =>$lastUsername]);
     }
 
     #[Route('/register', name: 'register')]
@@ -79,7 +64,8 @@ class LoginController extends AbstractController
 
                     $entityManager->persist($user);
                     $entityManager->flush();
-                    return $this->redirectToRoute('home');
+
+                    return $this->redirectToRoute('session', ['name' =>$username, 'password' => $hashedPasswd]);
                 }else{
                     $form->addError(new FormError('User already exist !'));
                 }

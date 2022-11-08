@@ -3,12 +3,16 @@
 {% block body %}
     <nav>
         <a href={{ path('home') }}>Home</a>
-        <a href={{ path('login') }}>Login</a>
+        {% if user %}
+            <a href={{ path('logout') }}>Logout</a>
+        {% else %}
+            <a href={{ path('login') }}>Login</a>
+        {% endif %}
     </nav>
 
-    <h1>
-        Bienvenu
-    </h1>
+
+
+    <h1>Bienvenu {{ user }}</h1>
 
     <p>Les derniers articles !</p>
 
