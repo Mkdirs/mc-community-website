@@ -1,0 +1,15 @@
+<nav style="display: flex; justify-content: space-between;">
+
+    <a href={{ path('home') }}>Home</a>
+
+    <span>
+        {% if user %}
+            {% block logged_user_actions %}
+            {% endblock %}
+            <a href={{ path('logout') }}>Logout</a>
+        {% else %}
+            <a href={{ path('login') }}>Login</a>
+        {% endif %}
+    </span>
+
+</nav>

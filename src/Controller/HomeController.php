@@ -20,13 +20,17 @@ class HomeController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstract
         //$name = $user->getUserIdentifier();
         //$passwd = $request->get('passwd');
 
-        $user = $this->getUser();
+        $authUser = $this->getUser();
 
-        $name = $user == null ? '' : $user->getUserIdentifier();
+        $name = $authUser == null ? '' : $authUser->getUserIdentifier();
+
+        $user = $doctrine->getRepository(User::class)
+            ->findOneBy(['name' => $name]);
+
 
 
         $posts = $doctrine->getRepository(Post::class)->findAll();
-        return $this->render('home.html.twig', ['title' => 'Home', 'user' =>$name, 'posts' => $posts]);
+        return $this->render('home.html.twig', ['title' => 'Home', 'controller' => $this, 'user' =>$name, 'posts' => $posts]);
     }
 
 }

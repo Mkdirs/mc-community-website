@@ -1,14 +1,11 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <nav>
-        <a href={{ path('home') }}>Home</a>
-        {% if user %}
-            <a href={{ path('logout') }}>Logout</a>
-        {% else %}
-            <a href={{ path('login') }}>Login</a>
-        {% endif %}
-    </nav>
+    {% embed 'header.html.twig' %}
+        {% block logged_user_actions %}
+            <a href="{{ path('publish') }}">Publish</a>
+        {% endblock %}
+    {% endembed %}
 
 
 
@@ -16,8 +13,13 @@
 
     <p>Les derniers articles !</p>
 
-    {% for post in posts%}
-        <h2>{{ post.title }}</h2>
+    {% for post in posts %}
+        <article style="background-color: yellow; max-width: 300px">
+            <h1 style="text-align: center">{{ post.title }}</h1>
+            <section style=";margin-left: 20px;">
+                {{ post.description }}
+            </section>
+        </article>
     {% endfor %}
 
 

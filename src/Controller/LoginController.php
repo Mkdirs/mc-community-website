@@ -65,7 +65,7 @@ class LoginController extends AbstractController
                     $entityManager->persist($user);
                     $entityManager->flush();
 
-                    return $this->redirectToRoute('session', ['name' =>$username, 'password' => $hashedPasswd]);
+                    return $this->redirectToRoute('login');
                 }else{
                     $form->addError(new FormError('User already exist !'));
                 }
