@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {% embed 'header.html.twig' %}
+        {% block logged_user_actions %}
+            <a href="{{ path('publish') }}">Publish</a>
+        {% endblock %}
+    {% endembed %}
+
+    <h1>{{ post.getTitle() }}</h1>
+
+    <p>{{ post.getContent() }}</p>
+
+    <footer style="color: #B0413E">By {{ post.getEditor().getName() }}</footer>
+{% endblock %}

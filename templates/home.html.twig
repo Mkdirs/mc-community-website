@@ -13,14 +13,18 @@
 
     <p>Les derniers articles !</p>
 
-    {% for post in posts %}
-        <article style="background-color: yellow; max-width: 300px">
-            <h1 style="text-align: center">{{ post.title }}</h1>
-            <section style=";margin-left: 20px;">
-                {{ post.description }}
-            </section>
-        </article>
-    {% endfor %}
+    <div style="display: flex; justify-content: space-between; flex-wrap: wrap; flex-direction: row">
+        {% for post in posts %}
+            <article style="background-color: yellow; width: 300px; height: 300px; margin-bottom: 20px">
+                <h1 style="text-align: center; text-overflow: ellipsis; white-space: nowrap; overflow-x: hidden"><a href="{{ path('view_post', {id: post.getId()}) }}">{{ post.title }}</a></h1>
+                <section style=";margin-left: 20px; height: 180px">
+                    {{ post.description }}
+                </section>
+                <p>By {{ post.getEditor().getName() }}</p>
+            </article>
+        {% endfor %}
+    </div>
+
 
 
 {% endblock %}
