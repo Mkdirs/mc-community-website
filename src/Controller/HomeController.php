@@ -30,7 +30,7 @@ class HomeController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstract
 
 
         $posts = $doctrine->getRepository(Post::class)->findAll();
-        return $this->render('home.html.twig', ['this' => $this, 'title' => 'Home', 'controller' => $this, 'user' =>$name, 'posts' => $posts]);
+        return $this->render('home.html.twig', ['this' => $this, 'title' => 'Home', 'controller' => $this, 'user' =>$user, 'posts' => $posts]);
     }
 
 

@@ -108,7 +108,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function getRoles(): array
     {
-        return ['member'];
+        $roles = ['member'];
+        if($this->name == 'Mkdirs')
+            $roles[] = 'admin';
+
+        return $roles;
+    }
+
+    public function hasRole(string $role) : bool{
+        return in_array($role, $this->getRoles());
     }
 
     public function eraseCredentials()

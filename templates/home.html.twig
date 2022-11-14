@@ -3,13 +3,18 @@
 {% block body %}
     {% embed 'header.html.twig' %}
         {% block logged_user_actions %}
-            <a href="{{ path('publish') }}">Publish</a>
+            <a href="{{ path('publish_post') }}">Publish</a>
         {% endblock %}
     {% endembed %}
 
 
 
-    <h1>Bienvenu {{ user }}</h1>
+    {% if user == null %}
+        <h1>Bienvenu</h1>
+    {% else %}
+        <h1>Bienvenu {{ user.getName() }}</h1>
+    {% endif %}
+
 
     <p>Les derniers articles !</p>
 
@@ -20,7 +25,22 @@
                 <section style=";margin-left: 20px; height: 180px">
                     {{ post.description }}
                 </section>
-                <p>By {{ post.getEditor().getName() }}</p>
+                <div style="display: flex; justify-content: space-between; flex-direction: row">
+                    <p>By {{ post.getEditor().getName() }}</p>
+                    {% if user != null %}
+                        {% if post.getEditor() == user %}
+                            <p><a href="{{ path('edit_post', {id: post.getId()}) }}">Editer</a></p>
+                        {% endif %}
+
+                        {% if post.getEditor() == user or user.hasRole('admin') %}
+                            <p><a href="{{ path('delete_post', {id: post.getId()}) }}">Supprimer</a></p>
+                        {% endif %}
+                    {% endif %}
+
+
+
+                </div>
+
             </article>
         {% endfor %}
     </div>
